@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div class="home-container">
+    <div class="side-bar">
+      Sidebar
+    </div>
+    <div class="post-main-container">
+      <!-- Posts -->
+       {% include 'base/posts_component.html' %}
+    </div>
+
+    <div class="follow-recommendation-container">
+      <h2>Who to follow</h2>
+    </div>
+  </div>
+{% endblock content %}

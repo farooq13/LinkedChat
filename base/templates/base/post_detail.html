@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="post-detail-container">
+  <div class="posts-container">
+    <div class="post-user-info">
+      <a href="#"><img src=""></a>
+      <a href="#">
+        <h3>{{ post.author.name }} <i>@{{ post.author.username }}</i>
+          <small>
+          {{ post.created|timesince}} ago
+        </small>
+      </h3>
+      </a>
+    </div>
+    <p><a class="post-content" href="{% url 'post-detail' post.id %}">{{ post }}</a></p>
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% load widget_tweaks %}
+<div class="post-form-container">
+  <div class="post-form">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% render_field form.body placeholder="Post something..." class+="form-field" %}
+      <button class="post-btn" type="submit">Post</button>
+    </form>
+  </div>
+</div>
+<div class="posts-container">
+  {% for post in posts %}
+    <div class="post-user-info">
+      <a href="#"><img src=""></a>
+      <a href="#">
+        <h3>{{ post.author.name }} <i>@{{ post.author.username }}</i>
+          <small>
+          {{ post.created|timesince}} ago
+        </small>
+      </h3>
+      </a>
+    </div>
+    <p><a class="post-content" href="{% url 'post-detail' post.id %}">{{ post }}</a></p>
+  {% endfor %}
+</div>
