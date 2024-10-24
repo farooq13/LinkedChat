@@ -3,8 +3,8 @@
 <div class="post-detail-container">
   <div class="posts-container">
     <div class="post-user-info">
-      <a href="#"><img src=""></a>
-      <a href="#">
+      <a href="{{ post.author.profile.picture.url }}"><img src="{{ post.author.profile.picture.url }}"></a>
+      <a href="{% url 'profile' post.author.id %}">
         <h3>{{ post.author.name }} <i>@{{ post.author.username }}</i>
           <small>
           {{ post.created|timesince}} ago
