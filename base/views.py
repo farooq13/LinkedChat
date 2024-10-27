@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Q
 from .models import Post, Comment, UserProfile
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 
 
@@ -39,12 +39,34 @@ class Home(View):
 class PostDetail(View):
    def get(self, request, pk, *args, **kwargs):
       post = Post.objects.get(pk=pk)
+      form = CommentForm()
+      comments = Comment.objects.filter(post=post)
+
 
       context = {
-         'post': post
+         'post': post,
+         'form': form,
+         'comments': comments
       }
       return render(request, 'base/post_detail.html', context)
    
+   def post(self, request, pk, *args, **kwargs):
+      form = CommentForm(request.POST)
+      post = Post.objects.get(pk=pk)
+      comments = Comment.objects.filter(post=post)
+
+      if form.is_valid():
+         comment = form.save(commit=False)
+         comment.author = request.user
+         comment.post = post
+         comment.save()
+
+      context = {
+         'form': form,
+         'post': post,
+         'comments': comments
+      }
+      return render(request, 'base/post_detail.html', context)
 
 class Profile(View):
    def get(self, request, pk, *args, **kwargs):

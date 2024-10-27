@@ -27,10 +27,25 @@ a {
   color: #00FFFF;
 }
 
+.logo:hover {
+  text-decoration: underline;
+}
 
+.nav-auth-status {
+  display: flex;
+  justify-content: end;
+  margin-left: 50rem;
+}
 .nav-auth-status a {
-  color: #00FFFF;
+  color: #ffff;
   font-size: 20px;
+  border: 1px solid #00FFFF;
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
+.nav-auth-status a:hover {
+  color: #00FFFF;
 }
 
 .home-container {
@@ -86,7 +101,21 @@ a {
 }
 
 .post-detail-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
   justify-content: center;
   align-items: center;
+  margin-left: 10rem;
+}
+
+.post-detail-wrapper {
+  display: block;
+}
+
+.comment-wrapper {
+  margin-left: 1rem;
+  border: 1px solid #00FFFF;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  padding: 15px;
 }
