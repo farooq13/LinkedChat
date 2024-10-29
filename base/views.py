@@ -1,5 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.db.models import Q
 from .models import Post, Comment, UserProfile
 from .forms import PostForm, CommentForm
@@ -67,6 +72,61 @@ class PostDetail(View):
          'comments': comments
       }
       return render(request, 'base/post_detail.html', context)
+
+
+class PostEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+   model = Post
+   fields = ['body']
+   template_name = 'base/post_edit.html'
+
+
+   def get_success_url(self):
+      pk = self.kwargs['pk']
+      return reverse_lazy('post-detail', kwargs={'pk': pk})
+   
+   def test_func(self):
+      post = self.get_object()
+      return self.request.user == post.author
+   
+
+class PostDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+   model = Post
+   template_name = 'base/post_delete.html'
+   success_url = reverse_lazy('home')
+
+
+   def test_func(self):
+      post = self.get_object()
+      return self.request.user == post.author
+
+
+class PostLike(View):
+   def post(self, request, pk, *args, **Kwargs):
+      post = get_object_or_404(Post, pk=pk)
+      user = request.user
+
+      if user in post.likes.all():
+         post.likes.remove(user)
+      if user in post.dislikes.all():
+         post.dislikes.remove(user)
+         post.likes.add(user)
+
+      next = request.POST.get('next')
+      return HttpResponseRedirect(next)
+
+class PostDislike(View):
+   def post(self, request, pk, *args, **kwargs):
+      post = get_object_or_404(Post, pk=pk)
+      user = request.user
+
+      if user in post.dislikes.all():
+         post.dislikes.remove(user)
+      if user in post.likes.all():
+         post.likes.remove(user)
+         post.dislikes.add(user)
+
+      next = request.POST.get('next')
+      return HttpResponseRedirect(next)
 
 class Profile(View):
    def get(self, request, pk, *args, **kwargs):

@@ -1,4 +1,5 @@
 {% load widget_tweaks %}
+{% load static %}
 <div class="post-form-container">
   <div class="post-form">
     <form action="" method="POST">
@@ -10,6 +11,10 @@
 </div>
 {% for post in posts %}
 <div class="posts-container">
+    <div class="update-delete-btn">
+      <a href="{% url 'edit-post' post.id %}">Update</a>
+      <a href="{% url 'delete-post' post.id %}">Delete</a>
+    </div>
     <div class="post-user-info">
       <a href="{{post.author.profile.picture.url}}"><img src="{{post.author.profile.picture.url}}" class="rounded-circle post-img" height="30" width="30"></a>
       <a href="{% url 'profile' post.author.id %}">
@@ -22,5 +27,25 @@
     </div>
     <br>
     <p><a class="post-content" href="{% url 'post-detail' post.id %}">{{ post }}</a></p>
+    <div class="post-engagement-icons">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <!-- SVG icons -->
+         <input type="hidden" name="next" value="{{ request.path }}">
+       <button style="background-color: transparent; border: none;">
+        <img src="{% static 'images/like.svg' %}" alt=""> 
+        <span style="color: #fff;">Likes</span>
+      </button>
+      </form>
+
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button style="background-color: transparent; border: none;">
+          <img src="{% static 'images/dislike.svg' %}" alt=""> 
+          <span style="color: #fff;">Dislikes</span>
+        </button>
+      </form>
+    </div>
 </div>
 {% endfor %}

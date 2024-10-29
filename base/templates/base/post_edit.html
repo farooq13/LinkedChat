@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="form-control-container">
+  <div class="form-control">
+    <h1 style="margin-left: 10rem; margin-bottom: 2rem;">Edit Post</h1>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% render_field form.body placeholder="Comment on this post" class+="form-field-edit" %}
+      <div style="display: flex; justify-content: space-around; width: 200px; margin: 2rem;">
+        <button class="post-btn">Back</button>
+        <button class="post-btn" type="submit">Update Post</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}

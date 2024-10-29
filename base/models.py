@@ -10,6 +10,8 @@ class Post(models.Model):
   body = models.TextField()
   author = models.ForeignKey(User, on_delete=models.CASCADE)
   created = models.DateTimeField(default=timezone.now)
+  likes = models.ManyToManyField(User, related_name='likes', blank=True)
+  dislikes = models.ManyToManyField(User, related_name='dislikes', blank=True)
   
   class Meta:
     ordering = ['-created']
