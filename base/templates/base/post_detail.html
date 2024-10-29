@@ -12,6 +12,10 @@
       </div>
       
       <div class="posts-container">
+        <div class="update-delete-btn">
+          <a href="{% url 'edit-post' post.id %}">Update</a>
+          <a href="{% url 'delete-post' post.id %}">Delete</a>
+        </div>
         <div class="post-user-info">
           <a href="{{ post.author.picture.url }}"><img src="{{ post.author.picture.url }}"></a>
           <a href="{% url 'profile' post.author.id %}">
@@ -22,7 +26,8 @@
           </h3>
           </a>
         </div>
-        <p><a class="post-content" href="{% url 'post-detail' post.id %}">{{ post }}</a></p>
+        <br>
+        <p>{{ post }}</p>
       </div>
 
       <div class="comment-wrapper">
@@ -31,7 +36,7 @@
         <div class="comment-container">
           <a href="{{ comment.author.picture.url }}"><img src="{{ comment.author.picture.url }}"></a>
           <a href="{% url 'profile' post.author.id %}">
-            <h3>{{ commentsauthor.name }} <i>@{{ comment.author.username }}</i>
+            <h3>{{ comment.author.name }} <i>@{{ comment.author.username }}</i>
               <small>
               {{ comment.created|timesince}} ago
             </small>
