@@ -1,11 +1,21 @@
 {% extends 'main.html' %}
+{% load widget_tweaks %}
 {% block content %}
   <div class="home-container">
     <div class="side-bar">
-      Sidebar
+    
     </div>
     <div class="post-main-container">
       <!-- Posts -->
+      <div class="post-form-container">
+        <div class="post-form">
+          <form action="" method="POST">
+            {% csrf_token %}
+            {% render_field form.body placeholder="Post something..." class+="form-field" %}
+            <button class="post-btn" type="submit">Post</button>
+          </form>
+        </div>
+      </div>
        {% include 'base/posts_component.html' %}
     </div>
 
