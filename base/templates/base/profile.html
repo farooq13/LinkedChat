@@ -1,8 +1,21 @@
-<div class="profile-info">
-  <a href="#"><img src="{{ profile.picture.url }}" alt="profile picture"></a>
-  <h3>@{{ profile.username }}</h3>
-  <h1>{{ profile.name }}</h1>
-</div>
+{% extends 'main.html' %}
+
+{% block content %}
 <div class="profile-container">
-  
+  <div class="profile-control">
+    <div class="profile-info">
+      <a href="#"><img class="profile-picture" src="{{ profile.picture.url }}" alt="profile picture"></a>
+      <h3>@{{ profile.user.username }}</h3>
+      {% if profile.name %}
+      <h1>{{ profile.user.name }}</h1>
+      {% endif %}
+    </div>
+    <a class="profile-edit" href="{% url 'profile-edit' profile.pk %}">Edit Profile</a>
+    <div class="profile-container">
+      <div class="profile-user-posts">
+       {% include 'base/posts_component.html' %}
+      </div>
+    </div>
+  </div>
 </div>
+{% endblock content %}

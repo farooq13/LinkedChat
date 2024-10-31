@@ -1,18 +1,10 @@
 {% load widget_tweaks %}
 {% load static %}
-<div class="post-form-container">
-  <div class="post-form">
-    <form action="" method="POST">
-      {% csrf_token %}
-      {% render_field form.body placeholder="Post something..." class+="form-field" %}
-      <button class="post-btn" type="submit">Post</button>
-    </form>
-  </div>
-</div>
+
 {% for post in posts %}
 <div class="posts-container">
     <div class="update-delete-btn">
-      <a href="{% url 'edit-post' post.id %}">Update</a>
+      <a href="{% url 'edit-post' post.id %}">Edit</a>
       <a href="{% url 'delete-post' post.id %}">Delete</a>
     </div>
     <div class="post-user-info">
@@ -28,22 +20,22 @@
     <br>
     <p><a class="post-content" href="{% url 'post-detail' post.id %}">{{ post }}</a></p>
     <div class="post-engagement-icons">
-      <form action="" method="POST">
+      <form action="{% url 'like' post.id %}" method="POST">
         {% csrf_token %}
         <!-- SVG icons -->
          <input type="hidden" name="next" value="{{ request.path }}">
        <button style="background-color: transparent; border: none;">
         <img src="{% static 'images/like.svg' %}" alt=""> 
-        <span style="color: #fff;">Likes</span>
+        <span style="color: #fff;"><span>{{ post.likes.all.count }}</span> Likes</span>
       </button>
       </form>
 
-      <form action="" method="POST">
+      <form action="{% url 'dislike' post.id %}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.path }}">
         <button style="background-color: transparent; border: none;">
           <img src="{% static 'images/dislike.svg' %}" alt=""> 
-          <span style="color: #fff;">Dislikes</span>
+          <span style="color: #fff;"><span>{{ post.dislikes.all.count }}</span> Dislikes</span>
         </button>
       </form>
     </div>

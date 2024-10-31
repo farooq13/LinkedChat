@@ -175,3 +175,50 @@ a {
 .post-engagement-icons .icon:hover {
   color: #00FFFF;
 }
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-control {
+  display: block;
+}
+
+.profile-info {
+  display: block;
+  margin-left: 12rem;
+  margin-bottom: 1rem;
+}
+
+.profile-picture {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.profile-edit {
+  display: block;
+  text-align: center;
+  width: 200px;
+  padding: 15px;
+  background-color: #00FFFF;
+  color: #000;
+  margin-left: 8rem;
+  border-radius: 5px;
+  transition: opacity 0.3s;
+  margin-bottom: 3rem;
+}
+
+.profile-edit:hover {
+  opacity: 0.8;
+}
+
+.profile-edit-form-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

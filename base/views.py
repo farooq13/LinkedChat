@@ -100,44 +100,91 @@ class PostDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
       return self.request.user == post.author
 
 
-class PostLike(View):
-   def post(self, request, pk, *args, **Kwargs):
-      post = get_object_or_404(Post, pk=pk)
-      user = request.user
+class PostLike(LoginRequiredMixin, View):
+  def post (self, request, pk, *args, **kwargs):
+    post = get_object_or_404(Post, pk=pk)
+    user = request.user
 
-      if user in post.likes.all():
-         post.likes.remove(user)
-      if user in post.dislikes.all():
-         post.dislikes.remove(user)
-         post.likes.add(user)
+    if user in post.likes.all():
+      post.likes.remove(user)
+    if user in post.dislikes.all():
+      post.dislikes.remove(request.user)
+    else:
+      post.likes.add(user)
 
-      next = request.POST.get('next')
-      return HttpResponseRedirect(next)
+    next = request.POST.get('next')
+    return HttpResponseRedirect(next)
+  
+class PostDislike(LoginRequiredMixin, View):
+  def post(self, request, pk, *args, **kwargs):
+    post = get_object_or_404(Post, pk=pk)
+    user = request.user
 
-class PostDislike(View):
-   def post(self, request, pk, *args, **kwargs):
-      post = get_object_or_404(Post, pk=pk)
-      user = request.user
+    if user in post.dislikes.all():
+      post.dislikes.remove(user)
+    if user in post.likes.all():
+      post.likes.remove(user)
+    else:
+      post.dislikes.add(user)
 
-      if user in post.dislikes.all():
-         post.dislikes.remove(user)
-      if user in post.likes.all():
-         post.likes.remove(user)
-         post.dislikes.add(user)
+    next = request.POST.get('next')
+    return HttpResponseRedirect(next)
 
-      next = request.POST.get('next')
-      return HttpResponseRedirect(next)
 
 class Profile(View):
    def get(self, request, pk, *args, **kwargs):
       profile = UserProfile.objects.get(pk=pk)
       user = profile.user
       posts = Post.objects.filter(author=user)
+      followers = profile.followers.all()
+      number_of_followers = len(followers)
+
+      is_following = False
+
+      for follower in followers:
+         if followers == request.user:
+            is_following = True
+         is_following = True
 
       context = {
          'profile': profile,
          'user': user,
-         'posts': posts
+         'posts': posts,
+         'followers': followers,
+         'number_of_followers': number_of_followers,
+         'is_following': is_following
       }
       return render(request, 'base/profile.html', context)
 
+
+
+class ProfileEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+      model = UserProfile
+      fields = ['picture', 'name', 'location', 'bio', 'birth_date']
+      template_name = 'base/profile_edit.html'
+
+
+      def get_success_url(self):
+         pk = self.kwargs['pk']
+         return reverse_lazy('profile', kwargs={'pk': pk})
+      
+
+      def test_func(self):
+         profile = self.get_object()
+         return self.request.user == profile.user
+
+
+class Follow(LoginRequiredMixin, View):
+   def post(self, request, pk, *args, **kwargs):
+      profile = UserProfile.objects.get(pk=pk)
+      profile.followers.add(request.user)
+
+      return redirect('profile', pk=profile.pk)
+
+
+class UnFollow(LoginRequiredMixin, View):
+   def post(self, request, pk, *args, **kwargs):
+      profile = UserProfile.objects.get(pk=pk)
+      profile.followers.remove(request.user)
+
+      return redirect('profile', pk=profile.pk)
