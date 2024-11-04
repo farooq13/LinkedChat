@@ -226,3 +226,11 @@ a {
 .notification-icon {
   margin-left: 50rem;
 }
+
+.d-none {
+  display: none;
+}
+
+.notification-badge:hover {
+  cursor: pointer;
+}
