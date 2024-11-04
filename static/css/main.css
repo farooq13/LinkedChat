@@ -34,7 +34,7 @@ a {
 .nav-auth-status {
   display: flex;
   justify-content: end;
-  margin-left: 50rem;
+  margin-left: 1rem;
 }
 .nav-auth-status a {
   color: #ffff;
@@ -221,4 +221,8 @@ a {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.notification-icon {
+  margin-left: 50rem;
 }
