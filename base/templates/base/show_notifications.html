@@ -1,3 +1,44 @@
-<div class="notification container">
-  <span class="notification-badge">{{ notifications.count }}</span>
+<div class="notification-container">
+  <span class="notification-badge" onclick="showNotifications()">{{ notifications.count }}</span>
+  <div class="notification-content d-none" id="notification-container">
+    {% for notification in notifications %}
+    <!-- Post Notifications -->
+      {% if notification.post %}
+        {% if notification.notification_type == 1 %}
+          <div class="notification">
+            <a href="#">@{{ notification.from_user }} Liked your post</a>
+            <span>&times;</span>
+          </div>
+        {% elif notification.notification_type == 2 %}
+          <div class="notification">
+            <a href="#">@{{ notification.from_user }} commented on your post</a>
+            <span>&times;</span>
+          </div>
+        {% endif %}
+      {% endif %}
+      <!-- End Post Notifications -->
+
+      <!-- Comment Notifications -->
+      {% if notification.comment %}
+        {% if notification.notification_type == 1 %}
+          <div class="notification">
+            <a href="#">@{{ notification.from_user }} Liked your comment</a>
+            <span>&times;</span>
+          </div>
+        {% elif notification.notification_type == 2 %}
+          <div class="notification">
+            <a href="#">@{{ notification.from_user }} replied to your comment</a>
+            <span>&times;</span>
+          </div>
+        {% endif %}
+      {% endif %}
+        <!-- End Comment Notifications -->
+      {% if notification.notification_type == 3 %}
+          <div class="notification">
+            <a href="#">@{{ notification.from_user }} has started following you</a>
+            <span>&times;</span>
+          </div>
+      {% endif %}
+    {% endfor %}
+  </div>
 </div>
