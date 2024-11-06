@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Post, Comment, UserProfile
+from .models import Post, Comment, UserProfile, Notification
 from .forms import PostForm, CommentForm
 
 
@@ -188,3 +188,25 @@ class UnFollow(LoginRequiredMixin, View):
       profile.followers.remove(request.user)
 
       return redirect('profile', pk=profile.pk)
+
+
+
+class PostNotification(View):
+   def get(self, request, notification_pk, post_pk, *args, **kwargs):
+      notification = Notification.objects.get(pk=notification_pk)
+      post = Post.objects.get(pk=post_pk)
+      notification.user_has_seen = True
+      notification.save()
+      
+      return   redirect('post-detail', pk=post.pk)
+   
+
+
+class FollowNotification(View):
+   def get(self, request, notification_pk, profile_pk, *args, **kwargs):
+      notification = Notification.objects.get(pk=notification_pk)
+      profile = UserProfile.objects.get(pk=profile_pk)
+
+      notification.user_has_seen = True
+      notification.save()
+      return redirect('profile', pk=profile_pk)
