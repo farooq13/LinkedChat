@@ -66,10 +66,18 @@ class PostDetail(View):
          comment.post = post
          comment.save()
 
+         notification =  Notification(
+            notification_type=2,
+            from_user=comment.author,
+            to_user=post.author,
+            post=post
+         )
+
       context = {
          'form': form,
          'post': post,
-         'comments': comments
+         'comments': comments,
+         'notification': notification
       }
       return render(request, 'base/post_detail.html', context)
 
@@ -111,6 +119,12 @@ class PostLike(LoginRequiredMixin, View):
       post.dislikes.remove(request.user)
     else:
       post.likes.add(user)
+
+      notification = Notification(
+         notification_type=1,
+         from_user=request.user,
+         to_user=post.author
+      )
 
     next = request.POST.get('next')
     return HttpResponseRedirect(next)
@@ -178,6 +192,12 @@ class Follow(LoginRequiredMixin, View):
    def post(self, request, pk, *args, **kwargs):
       profile = UserProfile.objects.get(pk=pk)
       profile.followers.add(request.user)
+
+      notification = Notification(
+         notification_type=3, 
+         from_user=request.user, 
+         to_user=profile.user
+         )
 
       return redirect('profile', pk=profile.pk)
 
