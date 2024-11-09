@@ -230,3 +230,19 @@ class FollowNotification(View):
       notification.user_has_seen = True
       notification.save()
       return redirect('profile', pk=profile_pk)
+   
+
+
+class userSearch(View):
+   def get(self, request, *args, **kwargs):
+      query = request.GET.get('query')
+      profile_list = UserProfile.objects.filter(
+         Q(user__username__icontains=query)
+      )
+
+      context = {
+         'query': query,
+         'profile_list': profile_list
+      }
+      return render(request, 'base/search.html', context)
+

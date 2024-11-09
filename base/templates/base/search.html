@@ -1,0 +1,8 @@
+<div class="users-list-container">
+  {% for profile  in profile_list %}
+  <div class="users-list">
+    <h2><a href="{% url 'profile' profile.pk %}">@{{ profile.user.username }} {{ profile.name }}</a></h2>
+    <h3>Followers: {{ profile.followers.all.count }}</h3>
+  </div>
+  {% endfor %}
+</div>

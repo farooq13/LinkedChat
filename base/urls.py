@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Home, PostDetail, PostEdit, PostDelete ,PostLike, PostDislike, Profile, ProfileEdit, Follow, UnFollow, PostNotification, FollowNotification
+from .views import Home, PostDetail, PostEdit, PostDelete ,PostLike, PostDislike, Profile, ProfileEdit, Follow, UnFollow, PostNotification, FollowNotification, userSearch
 
 
 urlpatterns = [
@@ -17,4 +17,6 @@ urlpatterns = [
 
   path('notification/<str:notification_pk>/post/<str:post_pk>/', PostNotification.as_view(), name='post-notification'),
   path('notification/<str:notification_pk>/profile/<str:profile_pk>/', FollowNotification.as_view(), name='follow-notification'),
+
+  path('user-search/', userSearch.as_view(), name='user-search'),
 ]
