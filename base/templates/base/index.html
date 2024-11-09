@@ -21,6 +21,9 @@
 
     <div class="follow-recommendation-container">
       <h2>Who to follow</h2>
+      <form action="{% url 'user-search' %}" method="GET">
+        <input style="width: 240px; height: 30px;padding: 20px 15px; border-radius: 5px;margin-top: 10px;font-size: 16px;" type="search" name="query" id="" placeholder="Search @username" value="{{ request.get.query }}">
+      </form>
     </div>
   </div>
 {% endblock content %}

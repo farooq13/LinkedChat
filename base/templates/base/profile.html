@@ -13,11 +13,14 @@
     {% if request.user == profile.user %}
     <a class="profile-edit" href="{% url 'profile-edit' profile.pk %}">Edit Profile</a>
     {% else %}
+    <form action="" method="POST">
+      {% csrf_token %}
       {% if is_following %}
         <a href="{% url 'unfollow' profile.pk %}">UnFollow</a>
       {% else %}
       <a href="{% url 'follow' profile.pk %}">Follow</a>
       {% endif %}
+    </form>
     {% endif %}
     <div class="profile-container">
       <div class="profile-user-posts">

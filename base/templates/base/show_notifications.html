@@ -6,12 +6,12 @@
       {% if notification.post %}
         {% if notification.notification_type == 1 %}
           <div class="notification">
-            <a href="#">@{{ notification.from_user }} Liked your post</a>
+            <a href="{% url 'post-notification' notification.pk notification.post.pk %}">@{{ notification.from_user }} Liked your post</a>
             <span>&times;</span>
           </div>
         {% elif notification.notification_type == 2 %}
           <div class="notification">
-            <a href="#">@{{ notification.from_user }} commented on your post</a>
+            <a href="{% url 'post-notification' notification.pk notification.post.pk %}">@{{ notification.from_user }} commented on your post</a>
             <span>&times;</span>
           </div>
         {% endif %}
@@ -22,12 +22,12 @@
       {% if notification.comment %}
         {% if notification.notification_type == 1 %}
           <div class="notification">
-            <a href="#">@{{ notification.from_user }} Liked your comment</a>
+            <a href="{% url 'post-notification' notification.pk notification.comment.post.pk %}">@{{ notification.from_user }} Liked your comment</a>
             <span>&times;</span>
           </div>
         {% elif notification.notification_type == 2 %}
           <div class="notification">
-            <a href="#">@{{ notification.from_user }} replied to your comment</a>
+            <a href="{% url 'post-notification' notification.pk notification.comment.post.pk %}">@{{ notification.from_user }} replied to your comment</a>
             <span>&times;</span>
           </div>
         {% endif %}
@@ -35,7 +35,7 @@
         <!-- End Comment Notifications -->
       {% if notification.notification_type == 3 %}
           <div class="notification">
-            <a href="#">@{{ notification.from_user }} has started following you</a>
+            <a href="{% url 'follow-notification' notification.pk notification.from_user.pk %}">@{{ notification.from_user }} has started following you</a>
             <span>&times;</span>
           </div>
       {% endif %}
